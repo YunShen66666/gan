@@ -7,7 +7,7 @@ import generator
 import discrimator
 
 BATCH_SIZE = 512
-Learning_rate = 0.001
+Learning_rate = 0.0001
 EPOCH = 10
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -37,11 +37,12 @@ def train():
         discrimator1.train()
         generator1.train()
         for i,(img,target) in enumerate(train_loader):
-            fake_img = torch.rand(BATCH_SIZE,1,28,28).to(DEVICE)
+            in_size = img.size(0)
+            fake_img = torch.rand(in_size,1,28,28).to(DEVICE)
             img = img.to(DEVICE)
             fake_img = generator1(fake_img)
 
-            loss = citizerion(discrimator1(img),torch.ones(BATCH_SIZE,1))+citizerion(discrimator1(fake_img),torch.zeros(BATCH_SIZE,1))
+            loss = citizerion(discrimator1(img),torch.ones(in_size,1).to(DEVICE))+citizerion(discrimator1(fake_img),torch.zeros(in_size,1).to(DEVICE))
             loss.backward()
             optim_D.step()
             optim_G.step()
