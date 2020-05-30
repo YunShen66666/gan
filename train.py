@@ -16,7 +16,7 @@ DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 #             transforms.Normalize((0.1307,), (0.3081,))
 # ])
 train_loader = torch.utils.data.DataLoader(
-    datasets.MNIST('data',download=False,train=True,transform=transforms.ToTensor()),
+    datasets.MNIST('data',download=True,train=True,transform=transforms.ToTensor()),
     batch_size=BATCH_SIZE,
     shuffle=True
 )
@@ -42,13 +42,17 @@ def train():
             img = img.to(DEVICE)
             fake_img = generator1(fake_img)
 
-            loss = citizerion(discrimator1(img),torch.ones(in_size,1).to(DEVICE))+citizerion(discrimator1(fake_img),torch.zeros(in_size,1).to(DEVICE))
-            loss.backward()
+            loss_d = citizerion(discrimator1(img),torch.ones(in_size,1).to(DEVICE))+citizerion(discrimator1(fake_img),torch.zeros(in_size,1).to(DEVICE))
+            loss_d.backward()
             optim_D.step()
+
+            loss_g = citizerion(discrimator1(generator1(torch.rand(in_size,1,28,28).to(DEVICE))),torch.ones(in_size,1).to(DEVICE))
+            loss_g.backward()
             optim_G.step()
+
             if i%30==0:
-                print("epich:{}/{} , batch:{}/{} , loss={}".format(
-                    epoch,EPOCH,i,len(train_loader),loss.item()))
+                print("epich:{}/{} , batch:{}/{} , loss_d={} , loss_g={}".format(
+                    epoch,EPOCH,i,len(train_loader),loss_d.item(),loss_g.item()))
         if epoch%2==0:
             state = {'generator':generator1.state_dict(),'discrimator':discrimator1.state_dict()}
             torch.save(state,"epoch{}".format(epoch))
