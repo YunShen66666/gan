@@ -38,7 +38,7 @@ def train():
         generator1.train()
         for i,(img,target) in enumerate(train_loader):
             in_size = img.size(0)
-            fake_img = torch.nor
+            fake_img = torch.rand(in_size,1,28,28)
             img = img.to(DEVICE)
             fake_img = generator1(fake_img)
 

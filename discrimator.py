@@ -17,7 +17,7 @@ class Discrimiator(nn.Module):
 
     def forward(self,x):
         in_size = x.size(0)
-        model = nn.Sequential(self.conv1,self.relu,self.max_pool,self.conv2,self.relu)
+        model = nn.Sequential(self.conv1,self.relu,self.conv2,self.relu)
         x = model(x)
         x = x.view(in_size,-1)
         x = self.fc1(x)
