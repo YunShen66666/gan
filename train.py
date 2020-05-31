@@ -52,7 +52,7 @@ def train():
 
             if i%50==0:
                 print("epich:{}/{} , batch:{}/{} , loss_d={} , loss_g={}".format(
-                    epoch,EPOCH,i,len(train_loader),loss_d.item(),loss_g.item()))
+                    epoch,EPOCH,i,len(train_loader),loss_d.item()*1000,loss_g.item()*1000))
         if epoch%7==0:
             state = {'generator':generator1.state_dict(),'discrimator':discrimator1.state_dict()}
             torch.save(state,"epoch{}".format(epoch))

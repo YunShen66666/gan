@@ -9,7 +9,7 @@ class Discrimiator(nn.Module):
 
         self.fc1 = nn.Linear(20*14*14,500) #细节 这参数输入元素数，不用加batch batch输入的时候加
         self.fc2 = nn.Linear(500,1)
-        self.relu = nn.LeakeyReLU(0.2,inplace=True)
+        self.relu = nn.LeakyReLU(0.2,inplace=True)
 
         self.max_pool = nn.MaxPool2d(2,2)
         self.sigmod = nn.Sigmoid()
