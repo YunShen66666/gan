@@ -9,10 +9,11 @@ class Generator(nn.Module):
         self.conv2 = nn.Conv2d(10,20,3,padding=1)
         self.conv3 = nn.Conv2d(20,10,3,padding=1)
         self.conv4 = nn.Conv2d(10,1,3,padding=1)
-        self.relu = nn.ReLU()
+        self.relu = nn.LeakyReLU(0.2,inplace=True)
+        self.tanh = nn.tanh()
 
     def forward(self,x):
         model = nn.Sequential(self.conv1,self.relu,self.conv2,self.relu,
-                             self.conv3,self.relu,self.conv4)
+                             self.conv3,self.relu,self.conv4,self.tanh)
         x = model(x)
         return x

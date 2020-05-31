@@ -8,7 +8,7 @@ import discrimator
 
 BATCH_SIZE = 512
 Learning_rate = 0.0001
-EPOCH = 10
+EPOCH = 30
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # transform_train = transforms.Compose([
@@ -16,7 +16,7 @@ DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 #             transforms.Normalize((0.1307,), (0.3081,))
 # ])
 train_loader = torch.utils.data.DataLoader(
-    datasets.MNIST('data',download=True,train=True,transform=transforms.ToTensor()),
+    datasets.MNIST('data',download=False,train=True,transform=transforms.ToTensor()),
     batch_size=BATCH_SIZE,
     shuffle=True
 )
@@ -27,8 +27,8 @@ D = discrimator.Discrimiator()
 generator1 = G.to(DEVICE)
 discrimator1 = D.to(DEVICE)
 
-optim_G = optimizer.SGD(generator1.parameters(),lr=Learning_rate)
-optim_D = optimizer.SGD(discrimator1.parameters(),lr=Learning_rate)
+optim_G = optimizer.Adam(generator1.parameters(),lr=Learning_rate)
+optim_D = optimizer.Adam(discrimator1.parameters(),lr=Learning_rate)
 
 citizerion = nn.BCELoss()
 
@@ -50,10 +50,10 @@ def train():
             loss_g.backward()
             optim_G.step()
 
-            if i%30==0:
+            if i%50==0:
                 print("epich:{}/{} , batch:{}/{} , loss_d={} , loss_g={}".format(
                     epoch,EPOCH,i,len(train_loader),loss_d.item(),loss_g.item()))
-        if epoch%2==0:
+        if epoch%7==0:
             state = {'generator':generator1.state_dict(),'discrimator':discrimator1.state_dict()}
             torch.save(state,"epoch{}".format(epoch))
 train()
