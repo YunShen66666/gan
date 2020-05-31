@@ -38,15 +38,17 @@ def train():
         generator1.train()
         for i,(img,target) in enumerate(train_loader):
             in_size = img.size(0)
-            fake_img = torch.rand(in_size,1,28,28).to(DEVICE)
+            fake_img = torch.nor
             img = img.to(DEVICE)
             fake_img = generator1(fake_img)
 
             loss_d = citizerion(discrimator1(img),torch.ones(in_size,1).to(DEVICE))+citizerion(discrimator1(fake_img),torch.zeros(in_size,1).to(DEVICE))
+            optim_D.zero_grad()
             loss_d.backward()
             optim_D.step()
 
             loss_g = citizerion(discrimator1(generator1(torch.rand(in_size,1,28,28).to(DEVICE))),torch.ones(in_size,1).to(DEVICE))
+            optim_G.zero_grad()
             loss_g.backward()
             optim_G.step()
 
