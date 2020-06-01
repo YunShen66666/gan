@@ -11,12 +11,12 @@ Learning_rate = 0.0001
 EPOCH = 30
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-transform_train = transforms.Compose([
-            transforms.ToTensor(),
-            transforms.Normalize(mean=[0.5],std=[0.5])
-])
+# transform_train = transforms.Compose([
+#             transforms.ToTensor(),
+#             transforms.Normalize((0.1307,), (0.3081,))
+# ])
 train_loader = torch.utils.data.DataLoader(
-    datasets.MNIST('data',download=False,train=True,transform=transform_train),
+    datasets.MNIST('data',download=False,train=True,transform=transforms.ToTensor()),
     batch_size=BATCH_SIZE,
     shuffle=True
 )
@@ -38,7 +38,7 @@ def train():
         generator1.train()
         for i,(img,target) in enumerate(train_loader):
             in_size = img.size(0)
-            fake_img = torch.rand(in_size,1,28,28).to(DEVICE)
+            fake_img = torch.rand(in_size,10)
             img = img.to(DEVICE)
             fake_img = generator1(fake_img)
 
@@ -47,7 +47,7 @@ def train():
             loss_d.backward()
             optim_D.step()
 
-            loss_g = citizerion(discrimator1(generator1(torch.rand(in_size,1,28,28).to(DEVICE))),torch.ones(in_size,1).to(DEVICE))
+            loss_g = citizerion(discrimator1(generator1(torch.rand(in_size,10).to(DEVICE))),torch.ones(in_size,1).to(DEVICE))
             optim_G.zero_grad()
             loss_g.backward()
             optim_G.step()
