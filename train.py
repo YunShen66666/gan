@@ -11,12 +11,12 @@ Learning_rate = 0.0001
 EPOCH = 30
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-# transform_train = transforms.Compose([
-#             transforms.ToTensor(),
-#             transforms.Normalize((0.1307,), (0.3081,))
-# ])
+transform_train = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((.5,.5,.5),(.5,.5,.5))
+])
 train_loader = torch.utils.data.DataLoader(
-    datasets.MNIST('data',download=False,train=True,transform=transforms.ToTensor()),
+    datasets.MNIST('data',download=False,train=True,transform=transform_train),
     batch_size=BATCH_SIZE,
     shuffle=True
 )
