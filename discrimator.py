@@ -9,7 +9,7 @@ class Discrimiator(nn.Module):
         self.fc2 = nn.Linear(500,100)
         self.fc3 = nn.Linear(100,10)
         self.fc4 = nn.Linear(10,1)
-        self.relu = nn.LeakyReLU()
+        self.relu = nn.LeakyReLU(0.2)
 
         self.sigmod = nn.Sigmoid()
 

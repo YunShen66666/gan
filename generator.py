@@ -10,7 +10,7 @@ class Generator(nn.Module):
         self.fc2 = nn.Linear(100,500)
         self.fc3 = nn.Linear(500,28*28)
 
-        self.relu = nn.LeakyReLU()
+        self.relu = nn.ReLU()
         self.tanh = nn.Tanh()
 
     def forward(self,x):
