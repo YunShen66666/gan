@@ -7,11 +7,11 @@ class Discrimiator(nn.Module):
         self.conv1 = nn.Conv2d(1,10,3,padding=1) #输入单通道图片(1,32,32) 1batch_size  (1,1,32,32)
         self.conv2 = nn.Conv2d(10,20,3,padding=1)
 
-        self.fc1 = nn.Linear(20*14*14,500) #细节 这参数输入元素数，不用加batch batch输入的时候加
-        self.fc2 = nn.Linear(500,1)
-        self.relu = nn.LeakyReLU(0.2,inplace=True)
+        self.fc1 = nn.Linear(20*14*14,50) #细节 这参数输入元素数，不用加batch batch输入的时候加
+        self.fc2 = nn.Linear(50,1)
+        self.relu = nn.LeakyReLU(0.2)
 
-        self.max_pool = nn.MaxPool2d(2,2)
+        self.avg_pool = nn.AvgPool2d(2,2)
         self.sigmod = nn.Sigmoid()
         self.batch_normalization = nn.BatchNorm1d(500)
 
