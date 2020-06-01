@@ -13,7 +13,7 @@ DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 transform_train = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize((.5,.5,.5),(.5,.5,.5))
+            transforms.Normalize(mean=[0.5],std=[0.5])
 ])
 train_loader = torch.utils.data.DataLoader(
     datasets.MNIST('data',download=False,train=True,transform=transform_train),
